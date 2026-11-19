@@ -27,8 +27,9 @@
 六张风味卡片整卡可点，外链新窗口打开；每个专题页另有醒目的「进入官网 / 原产地门户」按钮。
 
 ### 3. 首屏动态影像
-- `assets/video/hero.mp4`：1920×1080 / 25fps / H.264 High / 22 秒 / 约 5.7MB，
-  由公开来源的泸州长江—沱江交汇实景图逐帧动态重制（缓慢推拉 + 胶片颗粒 + 暗角），保留画质未强压。
+- `assets/video/hero-city-2025.mp4`：1280×720（原始画质）/ H.264 High / 20 秒 / 约 4MB，
+  取自 [泸州市宣传网《2025 泸州城市宣传片（短版）》](https://xcw.luzhou.gov.cn/dmlz/xcysp/content_159)，
+  直接流拷贝剪辑，不重编码、不放大、不压缩画质，也不带背景音乐。
 - 首屏右下角提供「动态影像 开 / 关」，选择会记住；尊重系统「减少动态效果」与浏览器省流模式。
 - 离开首屏自动暂停，回到首屏继续播放，省流量也省电。
 
@@ -41,7 +42,8 @@
 ```
 index.html                 页面（单文件样式 + 交互）
 assets/*.jpg               六种风味与首屏实景图
-assets/video/hero.mp4      首屏动态影像
+assets/video/hero-city-2025.mp4      首屏动态影像（泸州城市宣传片剪辑）
+assets/hero-poster.jpg     首屏动态影像封面帧
 assets/video/*.mp4         六条产品悬停影像
 assets/js/media.js         镜像线路调度器
 ```
@@ -49,7 +51,7 @@ assets/js/media.js         镜像线路调度器
 ## 维护
 
 - 更换官网链接：搜索 `official-btn` 或卡片上的 `href`，同步修改 `index.html` 中对应条目即可。
-- 更换首屏影像：替换 `assets/video/hero.mp4` 后提交，镜像站会自动同步。
+- 更换首屏影像：替换 `assets/video/hero-city-2025.mp4` 后提交，镜像站会自动同步。
 - 调整线路阈值：编辑 `assets/js/media.js` 中的 `RULES.maxTTFB`、`RULES.minSpeed`。
 
 ## 版权
