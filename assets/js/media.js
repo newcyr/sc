@@ -33,6 +33,10 @@
     cacheTTL: 6 * 60 * 60 * 1000
   };
 
+  var STALL_MS = 5200;
+  var ORIGIN_MIRROR = MIRRORS[MIRRORS.length - 1];
+  var originUntil = 0;
+
   var route = null;
   var routePromise = null;
   var listeners = [];
@@ -68,6 +72,15 @@
     for (var i = 0; i < listeners.length; i++) {
       try { listeners[i](info); } catch (e) {}
     }
+  }
+
+  /* 镜像播放中断时，临时整体降级到原站，避免逐条资源反复踩坑 */
+  function degradeRoute() {
+    invalidate();
+    originUntil = Date.now() + 30 * 60 * 1000;
+    route = ORIGIN_MIRROR;
+    routePromise = Promise.resolve(ORIGIN_MIRROR);
+    announce({ id: ORIGIN_MIRROR.id, label: ORIGIN_MIRROR.label, ttfb: 0, speed: 0, ok: true, degraded: true });
   }
 
   /* ---------- 单线路测速：读到 96KB 主动断开，不整包下载 ---------- */
@@ -128,6 +141,11 @@
 
   /* ---------- 选线路：缓存 → 各镜像 → 原站 ---------- */
   function chooseRoute() {
+    if (Date.now() < originUntil) {
+      route = ORIGIN_MIRROR;
+      routePromise = Promise.resolve(ORIGIN_MIRROR);
+      return routePromise;
+    }
     if (routePromise) return routePromise;
     var cached = readCache();
     if (cached) {
@@ -193,10 +211,60 @@
   }
 
   /* ---------- 视频 ---------- */
+  /* 播放中途卡死（无 error 事件）时，切回原站并保留播放进度 */
+  function switchToOrigin(video, path, autoplay) {
+    var at = video.currentTime || 0;
+    var shouldPlay = autoplay || !video.paused;
+    degradeRoute();
+    video.dataset.route = 'origin';
+    video.dataset.mediaState = 'ready';
+    video.classList.remove('is-live');
+    var restore = function () {
+      video.removeEventListener('loadedmetadata', restore);
+      try {
+        if (at > 0 && isFinite(video.duration) && video.duration > 0.2) {
+          video.currentTime = Math.min(at, video.duration - 0.1);
+        }
+      } catch (e) {}
+      video.classList.add('is-live');
+      if (shouldPlay) safePlay(video);
+    };
+    video.addEventListener('loadedmetadata', restore);
+    video.src = ORIGIN + path;
+    video.load();
+  }
+
+  function watchStall(video, path, autoplay) {
+    if (video.dataset.stallGuard === '1') return;
+    video.dataset.stallGuard = '1';
+    var lastTime = video.currentTime || 0;
+    var lastTick = performance.now();
+    var switched = video.dataset.route === 'origin' ? 1 : 0;
+    setInterval(function () {
+      var now = performance.now();
+      if (document.hidden || video.paused || video.ended) {
+        lastTime = video.currentTime || 0;
+        lastTick = now;
+        return;
+      }
+      if (video.currentTime > lastTime + 0.02) {
+        lastTime = video.currentTime;
+        lastTick = now;
+        return;
+      }
+      if (now - lastTick < STALL_MS) return;
+      lastTick = now;
+      if (switched) return;
+      switched = 1;
+      switchToOrigin(video, path, autoplay);
+    }, 1000);
+  }
+
   function attachVideo(video, path, autoplay) {
     if (video.dataset.mediaState === 'ready') {
       video.classList.add('is-live');
       if (autoplay) safePlay(video);
+      watchStall(video, path, autoplay);
       return;
     }
     if (video.dataset.mediaState === 'loading') {
@@ -207,6 +275,7 @@
           safePlay(video);
         });
       }
+      watchStall(video, path, autoplay);
       return;
     }
     video.dataset.mediaState = 'loading';
@@ -222,14 +291,10 @@
           safePlay(video);
         });
       }
+      watchStall(video, path, autoplay);
       video.addEventListener('error', function onErr() {
         video.removeEventListener('error', onErr);
-        invalidate();
-        video.dataset.mediaState = 'error';
-        video.classList.remove('is-live');
-        video.src = ORIGIN + path;
-        video.load();
-        if (autoplay) safePlay(video);
+        switchToOrigin(video, path, autoplay);
       }, { once: true });
     });
   }
