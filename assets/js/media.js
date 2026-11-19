@@ -4,9 +4,9 @@
    策略：
    1. 每次访问只做一次「线路竞速」，选出一条镜像线路给全站复用，
       避免每张图都重复测速、浪费流量；
-   2. 判定同时看首字节延迟与下载速度：超过 1.6s 未响应，
-      或速度低于 140KB/s，立即换下一条线路；
-   3. 镜像全部不可用时，最后回退 GitHub Pages 原站；
+   2. 判定同时看首字节延迟与下载速度：超过 3s 未响应，
+      或持续低于 60KB/s，视为该线路不合格，换下一条；
+   3. 优先 gh-proxy.org，其次 jsDelivr 等镜像，全部不可用时回退 GitHub Pages 原站；
    4. 线路缓存 6 小时；任一资源加载失败会立刻作废线路并回退原站。
    ============================================================ */
 (function () {
@@ -16,6 +16,7 @@
   var PROBE_PATH = 'assets/laojiao.jpg'; // 373KB，足够测出真实速度
 
   var MIRRORS = [
+    { id: 'ghproxy', label: 'gh-proxy 镜像', base: 'https://gh-proxy.org/https://raw.githubusercontent.com/newcyr/sc/main/' },
     { id: 'jsdelivr', label: 'jsDelivr', base: 'https://cdn.jsdelivr.net/gh/newcyr/sc@main/' },
     { id: 'fastly', label: 'jsDelivr Fastly', base: 'https://fastly.jsdelivr.net/gh/newcyr/sc@main/' },
     { id: 'statically', label: 'Statically', base: 'https://cdn.statically.io/gh/newcyr/sc/main/' },
@@ -24,12 +25,12 @@
   ];
 
   var RULES = {
-    probeBytes: 96 * 1024,
-    timeout: 2800,
-    maxTTFB: 1600,
-    minSpeed: 140 * 1024,
-    totalBudget: 6200,
-    cacheKey: 'lz-media-route-v3',
+    probeBytes: 160 * 1024,
+    timeout: 4000,
+    maxTTFB: 3000,
+    minSpeed: 60 * 1024,
+    totalBudget: 9000,
+    cacheKey: 'lz-media-route-v4',
     cacheTTL: 6 * 60 * 60 * 1000
   };
 

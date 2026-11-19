@@ -1064,7 +1064,7 @@ html.booted .feature-index{animation:idxFloat 9s ease-in-out infinite alternate}
 
       <div class="note-card media-note reveal">
         <b>关于影像与资源线路</b>
-        <p>首屏影像取自泸州市宣传网《2025泸州城市宣传片（短版）》并做画质保留的剪辑；产品悬停影像由本页实景图逐帧动态生成。图片与视频加载时优先尝试 jsDelivr 等镜像站，首字节超过 1.6 秒或速度低于 140KB/s 会自动切换到下一条线路，全部镜像不可用时才回退 GitHub Pages 原站。可在首屏右上角随时关闭动态影像。</p>
+        <p>首屏影像取自泸州市宣传网《2025泸州城市宣传片（短版）》并做画质保留的剪辑；产品悬停影像由本页实景图逐帧动态生成。图片与视频加载时优先尝试 gh-proxy.org，其次 jsDelivr 等镜像站；首字节超过 3 秒或速度持续低于 60KB/s 会自动切换到下一条线路，全部镜像不可用时才回退 GitHub Pages 原站。可在首屏右上角随时关闭动态影像。</p>
       </div>
 
       <details class="credit-box reveal">
@@ -1552,6 +1552,7 @@ html.booted .feature-index{animation:idxFloat 9s ease-in-out infinite alternate}
 (function(){
   var PATH='zip/Luzhou-Flavor-Offline.zip';
   var MIRRORS=[
+    {id:'ghproxy',label:'gh-proxy 镜像',base:'https://gh-proxy.org/https://raw.githubusercontent.com/newcyr/sc/main/'},
     {id:'jsdelivr',label:'jsDelivr 镜像',base:'https://cdn.jsdelivr.net/gh/newcyr/sc@main/'},
     {id:'fastly',label:'Fastly 镜像',base:'https://fastly.jsdelivr.net/gh/newcyr/sc@main/'},
     {id:'origin',label:'GitHub Pages 原站',base:'https://newcyr.github.io/sc/',origin:true}
@@ -1594,7 +1595,7 @@ html.booted .feature-index{animation:idxFloat 9s ease-in-out infinite alternate}
         var now=performance.now();
         var ttfb=(first||now)-started;
         var speed=bytes/Math.max(1,now-(first||started))*1000;
-        resolve(bytes>=8192 && ttfb<=6500 && speed>=40*1024);
+        resolve(bytes>=8192 && ttfb<=6500 && speed>=60*1024);
       }
     });
   }

@@ -77,6 +77,7 @@ button{font-family:inherit;cursor:pointer;transition:.28s}
 (function(){
   var NAME='Luzhou-Flavor-Offline.zip';
   var MIRRORS=[
+    {id:'ghproxy',label:'gh-proxy 镜像',base:'https://gh-proxy.org/https://raw.githubusercontent.com/newcyr/sc/main/zip/'},
     {id:'jsdelivr',label:'jsDelivr 镜像',base:'https://cdn.jsdelivr.net/gh/newcyr/sc@main/zip/'},
     {id:'fastly',label:'Fastly 镜像',base:'https://fastly.jsdelivr.net/gh/newcyr/sc@main/zip/'},
     {id:'origin',label:'GitHub Pages 原站',base:'../zip/',origin:true}
@@ -115,7 +116,7 @@ button{font-family:inherit;cursor:pointer;transition:.28s}
         done=true; clearTimeout(t);
         var now=performance.now();
         var speed=bytes/Math.max(1,now-(first||started))*1000;
-        resolve(bytes>=8192 && (first||now)-started<=6500 && speed>=40*1024);
+        resolve(bytes>=8192 && (first||now)-started<=6500 && speed>=60*1024);
       }
     });
   }
