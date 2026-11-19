@@ -230,6 +230,11 @@
       if (shouldPlay) safePlay(video);
     };
     video.addEventListener('loadedmetadata', restore);
+    video.addEventListener('canplay', function onceReady() {
+      video.removeEventListener('canplay', onceReady);
+      video.classList.add('is-live');
+      if (shouldPlay) safePlay(video);
+    });
     video.src = ORIGIN + path;
     video.load();
   }
