@@ -470,9 +470,6 @@ body.cursor-on,body.cursor-on a,body.cursor-on button{cursor:none}
   radial-gradient(120% 85% at 50% 30%,rgba(8,19,15,0) 30%,rgba(6,16,12,.55) 100%),
   linear-gradient(180deg,rgba(8,19,15,.66) 0%,rgba(8,19,15,.16) 32%,rgba(8,19,15,.5) 66%,rgba(8,19,15,.94) 100%),
   linear-gradient(90deg,rgba(8,19,15,.7),transparent 62%)}
-/* 环境声按钮 */
-.ambient-toggle .dot{background:var(--gold-soft)}
-.ambient-toggle[aria-pressed="false"] .dot{background:rgba(255,255,255,.42);animation:none}
 /* 桌面：每个风味 → 整屏章节 */
 @media(min-width:981px){
   .feature{min-height:100svh;display:flex;align-items:center;padding:8vh 0}
@@ -613,7 +610,6 @@ html.booted .feature-index{animation:idxFloat 9s ease-in-out infinite alternate}
     <div class="scroll-cue" aria-hidden="true"><span></span>SCROLL</div>
     <div class="hero-media">
       <button class="media-toggle" id="videoToggle" type="button" aria-pressed="true" aria-label="关闭背景动态影像"><span class="dot" aria-hidden="true"></span>动态影像 <b>开</b></button>
-      <button class="media-toggle ambient-toggle" id="ambientToggle" type="button" aria-pressed="false" aria-label="开启环境声"><span class="dot" aria-hidden="true"></span>环境声 <b>关</b></button>
       <span class="media-route" aria-live="polite">线路探测中…</span>
     </div>
     <div class="hero-credit">影像：2025泸州城市宣传片（短版）· 泸州市宣传网</div>
@@ -1414,59 +1410,6 @@ html.booted .feature-index{animation:idxFloat 9s ease-in-out infinite alternate}
       if(t) t.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
     });
   }
-
-  /* ---------- 环境声：程序化江河水声（零额外带宽） ---------- */
-  var btn=document.getElementById('ambientToggle');
-  if(!btn) return;
-  var AC=window.AudioContext||window.webkitAudioContext;
-  if(!AC){ btn.style.display='none'; return; }
-  var ctx=null,gain=null,on=false,label=btn.querySelector('b');
-
-  function build(){
-    ctx=new AC();
-    var len=Math.floor(ctx.sampleRate*5);
-    var buf=ctx.createBuffer(1,len,ctx.sampleRate);
-    var d=buf.getChannelData(0),last=0;
-    for(var i=0;i<len;i++){
-      var w=Math.random()*2-1;
-      last=(last+.018*w)/1.018;
-      d[i]=last*3.4;
-    }
-    var src=ctx.createBufferSource(); src.buffer=buf; src.loop=true;
-    var hp=ctx.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=110;
-    var lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=680; lp.Q.value=.55;
-    gain=ctx.createGain(); gain.gain.value=0;
-    src.connect(hp); hp.connect(lp); lp.connect(gain); gain.connect(ctx.destination);
-    src.start();
-    var lfo=ctx.createOscillator(); lfo.frequency.value=.05;
-    var lg=ctx.createGain(); lg.gain.value=190;
-    lfo.connect(lg); lg.connect(lp.frequency); lfo.start();
-  }
-
-  function setOn(v){
-    on=v;
-    try{
-      if(on){
-        if(!ctx) build();
-        if(ctx.state==='suspended') ctx.resume();
-        gain.gain.cancelScheduledValues(ctx.currentTime);
-        gain.gain.setTargetAtTime(.14,ctx.currentTime,.9);
-      }else if(ctx){
-        gain.gain.cancelScheduledValues(ctx.currentTime);
-        gain.gain.setTargetAtTime(0,ctx.currentTime,.35);
-      }
-    }catch(err){}
-    btn.setAttribute('aria-pressed',String(on));
-    btn.setAttribute('aria-label',on?'关闭环境声':'开启环境声');
-    if(label) label.textContent=on?'开':'关';
-    document.body.classList.toggle('ambient-on',on);
-  }
-  btn.addEventListener('click',function(){ setOn(!on); });
-  document.addEventListener('visibilitychange',function(){
-    if(!ctx) return;
-    if(document.hidden && on){ try{gain.gain.setTargetAtTime(0,ctx.currentTime,.2);}catch(e){} }
-    else if(on){ try{gain.gain.setTargetAtTime(.14,ctx.currentTime,.6);}catch(e){} }
-  });
 
   /* ---------- 影院式产品影像 ---------- */
   var cinema=document.getElementById('cinema');
