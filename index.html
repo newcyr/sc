@@ -462,6 +462,86 @@ body.cursor-on,body.cursor-on a,body.cursor-on button{cursor:none}
   .flavor-card{transform:none!important}
   body::after{display:none}
 }
+/* ================= 2026.3 immersion layer ================= */
+/* 首屏鼠标视差 */
+.hero-bg{transform:translate3d(var(--px,0px),var(--hero-y,0px),0) scale(1.12)}
+.hero-inner{transform:translate3d(var(--tx,0px),var(--copy-y,0px),0)}
+.hero::before{background:
+  radial-gradient(120% 85% at 50% 30%,rgba(8,19,15,0) 30%,rgba(6,16,12,.55) 100%),
+  linear-gradient(180deg,rgba(8,19,15,.66) 0%,rgba(8,19,15,.16) 32%,rgba(8,19,15,.5) 66%,rgba(8,19,15,.94) 100%),
+  linear-gradient(90deg,rgba(8,19,15,.7),transparent 62%)}
+/* 环境声按钮 */
+.ambient-toggle .dot{background:var(--gold-soft)}
+.ambient-toggle[aria-pressed="false"] .dot{background:rgba(255,255,255,.42);animation:none}
+/* 桌面：每个风味 → 整屏章节 */
+@media(min-width:981px){
+  .feature{min-height:100svh;display:flex;align-items:center;padding:8vh 0}
+  .feature>.wrap{width:min(1180px,calc(100% - 44px));margin-inline:auto}
+  .feature-grid{gap:clamp(48px,8vw,132px)}
+  .feature h3{font-size:clamp(38px,4.6vw,64px)}
+  .feature-index{font-size:clamp(120px,15vw,230px);color:rgba(168,58,42,.075);top:-40px}
+  .feature .body-copy{font-size:15.5px}
+}
+/* 章节导航轨 */
+.chapter-rail{
+  position:fixed;left:clamp(10px,1.4vw,20px);top:50%;transform:translateY(-50%);z-index:860;
+  display:flex;flex-direction:column;gap:1px;padding:12px 9px;
+  background:rgba(16,30,24,.34);border:1px solid rgba(255,255,255,.16);border-radius:999px;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  box-shadow:0 14px 40px rgba(0,0,0,.18);
+}
+.chapter-rail a{
+  display:flex;align-items:center;gap:9px;padding:5px 4px;position:relative;
+  color:rgba(246,241,231,.52);transition:color .3s;
+}
+.chapter-rail i{width:6px;height:6px;border-radius:50%;border:1px solid currentColor;transition:.3s;flex:none}
+.chapter-rail b{font-family:var(--serif);font-size:11px;font-weight:600;line-height:1;width:12px;text-align:center}
+.chapter-rail small{
+  position:absolute;left:100%;margin-left:10px;white-space:nowrap;font-size:9px;letter-spacing:.14em;
+  padding:4px 9px;background:rgba(16,30,24,.82);border:1px solid rgba(255,255,255,.14);border-radius:2px;
+  color:rgba(246,241,231,.9);opacity:0;transform:translateX(-5px);transition:.3s;pointer-events:none;
+}
+.chapter-rail a:hover small{opacity:1;transform:none}
+.chapter-rail a.active{color:var(--gold-soft)}
+.chapter-rail a.active i{background:var(--gold-soft);border-color:var(--gold-soft);box-shadow:0 0 0 4px rgba(217,189,138,.18)}
+.chapter-rail a.active b{color:#fff8e9}
+@media(max-width:1180px){.chapter-rail{display:none}}
+/* 深色章节里光标反差更明显 */
+.flavors .feature-media,.tips .tip,.sources .source-list li{position:relative}
+/* 沉浸：滚动时章节编号呼吸 */
+html.booted .feature-index{animation:idxFloat 9s ease-in-out infinite alternate}
+@keyframes idxFloat{from{opacity:.55}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.chapter-rail{display:none}.feature{min-height:auto!important}}
+/* 影院式影像播放 */
+.feature-img{cursor:pointer}
+@media(min-width:981px){
+  .feature-img::before{
+    content:"▶  观看产品影像";position:absolute;left:14px;bottom:14px;z-index:3;
+    font-size:9px;letter-spacing:.18em;color:rgba(255,248,233,.92);
+    padding:8px 12px;background:rgba(9,20,16,.46);border:1px solid rgba(255,255,255,.28);
+    backdrop-filter:blur(8px);opacity:0;transform:translateY(6px);transition:.35s;pointer-events:none;
+  }
+  .feature-media:hover .feature-img::before{opacity:1;transform:none}
+}
+.cinema{
+  position:fixed;inset:0;z-index:1800;display:flex;align-items:center;justify-content:center;
+  background:rgba(5,11,8,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  opacity:0;visibility:hidden;transition:opacity .5s ease,visibility .5s;
+}
+.cinema.open{opacity:1;visibility:visible}
+.cinema video{width:min(1120px,90vw);max-height:78vh;background:#000;box-shadow:0 40px 120px rgba(0,0,0,.65);outline:1px solid rgba(217,189,138,.28)}
+.cinema-cap{
+  position:absolute;left:50%;bottom:6vh;transform:translateX(-50%);text-align:center;
+  font-family:var(--serif);font-size:13px;letter-spacing:.22em;color:rgba(246,241,231,.72);
+}
+.cinema-close{
+  position:absolute;top:26px;right:28px;background:none;border:1px solid rgba(255,255,255,.3);
+  color:#f6f1e7;font-size:10px;letter-spacing:.2em;padding:9px 16px;cursor:pointer;transition:.25s;
+}
+.cinema-close:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.6)}
+/* 下滑隐藏导航 */
+.nav{transition:background .35s ease,padding .35s ease,box-shadow .35s ease,transform .45s cubic-bezier(.2,.7,.2,1)}
+.nav.nav-hide{transform:translateY(-115%)}
 </style>
 </head>
 <body>
@@ -493,6 +573,18 @@ body.cursor-on,body.cursor-on a,body.cursor-on button{cursor:none}
   </button>
 </header>
 
+<aside class="chapter-rail" id="chapterRail" aria-label="章节导航">
+  <a href="#city" data-ch="city"><i></i><b>序</b><small>城市底味</small></a>
+  <a href="#flavors" data-ch="flavors"><i></i><b>六</b><small>风味索引</small></a>
+  <a href="#laojiao" data-ch="laojiao"><i></i><b>酒</b><small>泸州老窖</small></a>
+  <a href="#lizhi" data-ch="lizhi"><i></i><b>荔</b><small>合江荔枝</small></a>
+  <a href="#tea" data-ch="tea"><i></i><b>茶</b><small>纳溪特早茶</small></a>
+  <a href="#huangba" data-ch="huangba"><i></i><b>粑</b><small>黄粑风味</small></a>
+  <a href="#zhuerba" data-ch="zhuerba"><i></i><b>糯</b><small>猪儿粑</small></a>
+  <a href="#malaji" data-ch="malaji"><i></i><b>鸡</b><small>古蔺麻辣鸡</small></a>
+  <a href="#itinerary" data-ch="itinerary"><i></i><b>游</b><small>一日食单</small></a>
+</aside>
+
 <main id="main">
   <section class="hero" id="top" aria-label="泸州食味手册封面">
     <div class="hero-bg">
@@ -521,6 +613,7 @@ body.cursor-on,body.cursor-on a,body.cursor-on button{cursor:none}
     <div class="scroll-cue" aria-hidden="true"><span></span>SCROLL</div>
     <div class="hero-media">
       <button class="media-toggle" id="videoToggle" type="button" aria-pressed="true" aria-label="关闭背景动态影像"><span class="dot" aria-hidden="true"></span>动态影像 <b>开</b></button>
+      <button class="media-toggle ambient-toggle" id="ambientToggle" type="button" aria-pressed="false" aria-label="开启环境声"><span class="dot" aria-hidden="true"></span>环境声 <b>关</b></button>
       <span class="media-route" aria-live="polite">线路探测中…</span>
     </div>
     <div class="hero-credit">影像：2025泸州城市宣传片（短版）· 泸州市宣传网</div>
@@ -961,6 +1054,12 @@ body.cursor-on,body.cursor-on a,body.cursor-on button{cursor:none}
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
 </button>
 
+<div class="cinema" id="cinema" aria-hidden="true" role="dialog" aria-modal="true" aria-label="产品影像播放">
+  <button class="cinema-close" id="cinemaClose" type="button">关闭 ESC</button>
+  <video id="cinemaVideo" controls playsinline preload="none"></video>
+  <div class="cinema-cap" id="cinemaCap"></div>
+</div>
+
 <script src="assets/js/media.js"></script>
 <script>
 (function(){
@@ -1264,6 +1363,169 @@ body.cursor-on,body.cursor-on a,body.cursor-on button{cursor:none}
       });
     },{threshold:.55});
     vids.forEach(function(v){ vio.observe(v); });
+  }
+})();
+</script>
+<script>
+/* ================= 2026.3 immersion interactions ================= */
+(function(){
+  var root=document.documentElement;
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine=window.matchMedia&&window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+
+  /* ---------- 首屏：鼠标驱动的镜头位移 ---------- */
+  if(fine && !reduce){
+    var hero=document.querySelector('.hero');
+    var bg=document.querySelector('.hero-bg');
+    var inner=document.querySelector('.hero-inner');
+    if(hero&&bg&&inner){
+      hero.addEventListener('mousemove',function(e){
+        var r=hero.getBoundingClientRect();
+        var nx=(e.clientX-r.left)/r.width-.5;
+        bg.style.setProperty('--px',(nx*-18).toFixed(1)+'px');
+        inner.style.setProperty('--tx',(nx*10).toFixed(1)+'px');
+      },{passive:true});
+      hero.addEventListener('mouseleave',function(){
+        bg.style.setProperty('--px','0px');
+        inner.style.setProperty('--tx','0px');
+      });
+    }
+  }
+
+  /* ---------- 章节导航轨 ---------- */
+  var rail=document.getElementById('chapterRail');
+  if(rail){
+    var railLinks=[].slice.call(rail.querySelectorAll('a'));
+    var targets=railLinks.map(function(a){return document.querySelector(a.getAttribute('href'));}).filter(Boolean);
+    if('IntersectionObserver' in window){
+      var rspy=new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          if(!en.isIntersecting) return;
+          var id='#'+en.target.id;
+          railLinks.forEach(function(a){ a.classList.toggle('active',a.getAttribute('href')===id); });
+        });
+      },{rootMargin:'-46% 0px -46% 0px',threshold:0});
+      targets.forEach(function(t){ rspy.observe(t); });
+    }
+    rail.addEventListener('click',function(e){
+      var a=e.target.closest('a'); if(!a) return;
+      e.preventDefault();
+      var t=document.querySelector(a.getAttribute('href'));
+      if(t) t.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+    });
+  }
+
+  /* ---------- 环境声：程序化江河水声（零额外带宽） ---------- */
+  var btn=document.getElementById('ambientToggle');
+  if(!btn) return;
+  var AC=window.AudioContext||window.webkitAudioContext;
+  if(!AC){ btn.style.display='none'; return; }
+  var ctx=null,gain=null,on=false,label=btn.querySelector('b');
+
+  function build(){
+    ctx=new AC();
+    var len=Math.floor(ctx.sampleRate*5);
+    var buf=ctx.createBuffer(1,len,ctx.sampleRate);
+    var d=buf.getChannelData(0),last=0;
+    for(var i=0;i<len;i++){
+      var w=Math.random()*2-1;
+      last=(last+.018*w)/1.018;
+      d[i]=last*3.4;
+    }
+    var src=ctx.createBufferSource(); src.buffer=buf; src.loop=true;
+    var hp=ctx.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=110;
+    var lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=680; lp.Q.value=.55;
+    gain=ctx.createGain(); gain.gain.value=0;
+    src.connect(hp); hp.connect(lp); lp.connect(gain); gain.connect(ctx.destination);
+    src.start();
+    var lfo=ctx.createOscillator(); lfo.frequency.value=.05;
+    var lg=ctx.createGain(); lg.gain.value=190;
+    lfo.connect(lg); lg.connect(lp.frequency); lfo.start();
+  }
+
+  function setOn(v){
+    on=v;
+    try{
+      if(on){
+        if(!ctx) build();
+        if(ctx.state==='suspended') ctx.resume();
+        gain.gain.cancelScheduledValues(ctx.currentTime);
+        gain.gain.setTargetAtTime(.14,ctx.currentTime,.9);
+      }else if(ctx){
+        gain.gain.cancelScheduledValues(ctx.currentTime);
+        gain.gain.setTargetAtTime(0,ctx.currentTime,.35);
+      }
+    }catch(err){}
+    btn.setAttribute('aria-pressed',String(on));
+    btn.setAttribute('aria-label',on?'关闭环境声':'开启环境声');
+    if(label) label.textContent=on?'开':'关';
+    document.body.classList.toggle('ambient-on',on);
+  }
+  btn.addEventListener('click',function(){ setOn(!on); });
+  document.addEventListener('visibilitychange',function(){
+    if(!ctx) return;
+    if(document.hidden && on){ try{gain.gain.setTargetAtTime(0,ctx.currentTime,.2);}catch(e){} }
+    else if(on){ try{gain.gain.setTargetAtTime(.14,ctx.currentTime,.6);}catch(e){} }
+  });
+
+  /* ---------- 影院式产品影像 ---------- */
+  var cinema=document.getElementById('cinema');
+  var cVideo=document.getElementById('cinemaVideo');
+  var cCap=document.getElementById('cinemaCap');
+  var cClose=document.getElementById('cinemaClose');
+  var cineOpen=false,lastFocus=null;
+
+  function closeCinema(){
+    if(!cineOpen) return;
+    cineOpen=false;
+    cinema.classList.remove('open');
+    cinema.setAttribute('aria-hidden','true');
+    try{ cVideo.pause(); }catch(e){}
+    try{ cVideo.removeAttribute('src'); cVideo.load(); }catch(e){}
+    document.body.style.overflow='';
+    if(lastFocus&&lastFocus.focus) lastFocus.focus();
+  }
+
+  if(cinema&&cVideo){
+    [].forEach.call(document.querySelectorAll('.feature-img'),function(fig){
+      fig.addEventListener('click',function(){
+        var media=fig.closest('.feature-media');
+        var v=media?media.querySelector('video[data-hover-video]'):null;
+        if(!v) return;
+        var path=v.getAttribute('data-hover-video');
+        var sec=fig.closest('.feature');
+        var title=sec?sec.querySelector('h3'):null;
+        lastFocus=fig;
+        cineOpen=true;
+        cinema.classList.add('open');
+        cinema.setAttribute('aria-hidden','false');
+        document.body.style.overflow='hidden';
+        cCap.textContent=title?title.textContent.replace(/\s+/g,' ').trim():'产品影像';
+        cVideo.muted=false;
+        cVideo.loop=true;
+        var go=function(url){
+          cVideo.src=url;
+          cVideo.play().catch(function(){ cVideo.muted=true; cVideo.play().catch(function(){}); });
+        };
+        if(window.LZMedia){ window.LZMedia.resolve(path).then(go); }
+        else go(path);
+      });
+    });
+    cClose.addEventListener('click',closeCinema);
+    cinema.addEventListener('click',function(e){ if(e.target===cinema) closeCinema(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeCinema(); });
+  }
+
+  /* ---------- 下滑隐藏导航，增强沉浸 ---------- */
+  var nav=document.getElementById('nav');
+  if(nav&&!reduce){
+    var lastY=window.scrollY||0;
+    window.addEventListener('scroll',function(){
+      var y=window.scrollY||0;
+      if(y>160&&y>lastY+4) nav.classList.add('nav-hide');
+      else if(y<lastY-4||y<120) nav.classList.remove('nav-hide');
+      lastY=y;
+    },{passive:true});
   }
 })();
 </script>
