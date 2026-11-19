@@ -1174,10 +1174,23 @@ html.booted .feature-index{animation:idxFloat 9s ease-in-out infinite alternate}
   if('IntersectionObserver' in window){
     var io=new IntersectionObserver(function(entries){
       entries.forEach(function(en){
-        if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}
+        if(en.isIntersecting){
+          en.target.classList.add('in');
+          [].forEach.call(en.target.querySelectorAll('.feature-media.reveal'),function(m){m.classList.add('in');});
+          io.unobserve(en.target);
+        }
       });
     },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
-    reveals.forEach(function(el){io.observe(el);});
+    reveals.forEach(function(el){
+      /* 带 clip-path 幕布的元素无法被 IO 命中，改观察其所属章节 */
+      var host=el;
+      if(el.classList.contains('feature-media')&&el.closest('.feature')) host=el.closest('.feature');
+      io.observe(host);
+    });
+    /* 兜底：极端情况下也不让影像一直隐藏 */
+    setTimeout(function(){
+      [].forEach.call(document.querySelectorAll('.feature-media.reveal:not(.in)'),function(m){m.classList.add('in');});
+    },2500);
   }else{
     reveals.forEach(function(el){el.classList.add('in');});
   }
