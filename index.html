@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -9,7 +9,9 @@
 <meta property="og:title" content="泸州食味手册">
 <meta property="og:description" content="长江与沱江在此相遇，酿出一座城的酒香、果甜与人间烟火。">
 <meta property="og:type" content="website">
-<meta property="og:image" content="assets/hero.jpg">
+<meta property="og:image" content="https://newcyr.github.io/sc/assets/hero.jpg">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://fastly.jsdelivr.net" crossorigin>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23a83a2a'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='%23f7f0e3' font-family='serif'%3E泸%3C/text%3E%3C/svg%3E">
 <style>
 :root{
@@ -306,6 +308,73 @@ section{position:relative}
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
   .reveal{opacity:1;transform:none}
 }
+
+/* ================= 2026 upgrade : cinematic media ================= */
+.hero-bg{overflow:hidden}
+.hero-poster{position:absolute;inset:0;z-index:0;animation:none!important;transform:none!important}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 56%;z-index:1;opacity:0;transition:opacity 1.4s ease;filter:saturate(.9) contrast(1.05);pointer-events:none}
+.hero-video.is-live{opacity:1}
+.hero-bg::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(120% 90% at 50% 42%,rgba(0,0,0,0) 38%,rgba(6,16,12,.34) 100%)}
+.hero-media{position:absolute;right:clamp(22px,6vw,110px);left:auto;top:96px;bottom:auto;display:flex;align-items:center;gap:14px;z-index:5;font-size:10px;letter-spacing:.14em;color:rgba(255,248,232,.7)}
+.media-toggle{display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(255,255,255,.3);background:rgba(10,22,17,.34);backdrop-filter:blur(10px);color:inherit;padding:9px 13px;cursor:pointer;letter-spacing:.14em;transition:background .25s,border-color .25s}
+.media-toggle:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.5)}
+.media-toggle b{font-weight:600;color:var(--gold-soft)}
+.media-toggle .dot{width:6px;height:6px;border-radius:50%;background:var(--gold-soft);animation:mediaPulse 2.4s infinite}
+.media-toggle[aria-pressed="false"] .dot{background:rgba(255,255,255,.42);animation:none}
+.media-toggle[aria-pressed="false"] b{color:rgba(255,248,232,.66)}
+@keyframes mediaPulse{0%{box-shadow:0 0 0 0 rgba(217,189,138,.55)}70%{box-shadow:0 0 0 8px rgba(217,189,138,0)}100%{box-shadow:0 0 0 0 rgba(217,189,138,0)}}
+.media-route{opacity:.55;letter-spacing:.08em;max-width:190px;line-height:1.5}
+.video-off .hero-video{display:none}
+.video-off .hero-poster{animation:none}
+
+/* cards : hover video */
+.flavor-card img{z-index:-3}
+.card-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;opacity:0;transition:opacity .55s ease;pointer-events:none}
+.flavor-card.playing .card-video.is-live{opacity:1}
+.flavor-card.playing img{opacity:0}
+.flavor-card.playing::after{background:linear-gradient(180deg,rgba(8,19,15,.02) 24%,rgba(8,19,15,.82) 100%)}
+.official-flag{position:absolute;top:16px;right:18px;z-index:2;display:inline-flex;align-items:center;gap:5px;font-size:9px;letter-spacing:.14em;padding:5px 9px;border:1px solid rgba(255,255,255,.32);background:rgba(9,20,16,.38);backdrop-filter:blur(8px);color:rgba(255,248,233,.92);transition:.28s}
+.official-flag svg{width:9px;height:9px}
+.flavor-card:hover .official-flag{background:var(--gold-soft);border-color:var(--gold-soft);color:var(--ink)}
+.flavor-live{position:absolute;left:22px;top:52px;z-index:2;display:inline-flex;align-items:center;gap:6px;font-size:8px;letter-spacing:.2em;color:rgba(255,248,233,.6);opacity:0;transform:translateY(5px);transition:.3s}
+.flavor-card.playing .flavor-live{opacity:1;transform:none}
+.flavor-live i{width:5px;height:5px;border-radius:50%;background:#e9b96a;box-shadow:0 0 8px #e9b96a}
+.flavor-card .flavor-arrow{left:auto}
+
+/* feature : hover video + official cta */
+.feature-img{background:#1a2a23}
+.feature-img img{position:relative;z-index:0}
+.feature-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;opacity:0;transition:opacity .6s ease;pointer-events:none}
+.feature-media.playing .feature-video.is-live{opacity:1}
+.official-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin-top:28px;padding-top:24px;border-top:1px solid var(--line)}
+.official-btn{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--paper);padding:13px 21px;font-size:11px;letter-spacing:.16em;transition:background .25s,transform .25s;position:relative;overflow:hidden}
+.official-btn:hover{background:var(--red);transform:translateY(-1px)}
+.official-btn svg{width:12px;height:12px;flex:none}
+.official-note{font-size:10px;letter-spacing:.06em;color:var(--muted);line-height:1.7}
+.official-note a{border-bottom:1px solid rgba(20,37,31,.22)}
+.feature:nth-child(even) .official-row{border-top-color:rgba(20,37,31,.14)}
+.media-note{margin-top:26px}
+
+/* footer route line */
+.route-line{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:12px;font-size:9px;letter-spacing:.1em;color:rgba(246,241,231,.34)}
+.route-line b{font-weight:500;color:rgba(246,241,231,.55)}
+
+@media(max-width:980px){
+  .hero-media{right:22px;left:auto;top:86px}
+  .flavor-live{display:none}
+}
+@media(max-width:620px){
+  .hero-media{right:18px;left:auto;top:78px;gap:10px}
+  .media-route{display:none}
+  .official-flag{top:12px;right:14px}
+  .official-row{gap:10px}
+  .official-btn{width:100%;justify-content:center}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-video{transition:none}
+  .card-video,.feature-video{transition:none}
+}
+
 </style>
 </head>
 <body>
@@ -333,7 +402,8 @@ section{position:relative}
 <main id="main">
   <section class="hero" id="top" aria-label="泸州食味手册封面">
     <div class="hero-bg">
-      <img src="assets/hero.jpg" alt="泸州长江与沱江交汇处航拍，江水呈现不同颜色" fetchpriority="high">
+      <img class="hero-poster" data-media="assets/hero.jpg" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD//gAQTGF2YzYwLjMxLjEwMgD/2wBDAAgYGBwYHCEhISEhISckJygoKCcnJycoKCgrKyszMzMrKysoKCsrMDAzMzc5NzQ0MzQ5OTw8PEhIRUVUVFdnZ3z/xABrAAEBAQEAAAAAAAAAAAAAAAAFBgIDAQEBAAAAAAAAAAAAAAAAAAADBBAAAQMBBQkBAQAAAAAAAAAAAQIAETFRQSEiEqGBkQNSQgTBE2HREQACAgIDAQAAAAAAAAAAAAAAAQIRAxIxIVET/8AAEQgADgAYAwEiAAIRAAMRAP/aAAwDAQACEQMRAD8AR0AcuJzxWuO+5zqlEJJVOGxp6mV5Haqwtfs7JXjilwdUmYmT+GgaOToDm0mElRu/oHt5+6bFcXVu36FGKruj/9k=" alt="泸州长江与沱江交汇处航拍，江水呈现不同颜色" fetchpriority="high">
+      <video class="hero-video" data-hero-video="assets/video/hero.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
     </div>
     <div class="hero-inner">
       <div class="hero-copy">
@@ -355,7 +425,11 @@ section{position:relative}
       <div class="hero-side" aria-hidden="true">江阳旧郡 · 酒城新味</div>
     </div>
     <div class="scroll-cue" aria-hidden="true"><span></span>SCROLL</div>
-    <div class="hero-credit">封面图：泸州长江与沱江交汇处 · 人民图片网</div>
+    <div class="hero-media">
+      <button class="media-toggle" id="videoToggle" type="button" aria-pressed="true" aria-label="关闭背景动态影像"><span class="dot" aria-hidden="true"></span>动态影像 <b>开</b></button>
+      <span class="media-route" aria-live="polite">线路探测中…</span>
+    </div>
+    <div class="hero-credit">影像：泸州长江与沱江交汇处 · 人民图片网 / 逐帧动态重制</div>
   </section>
 
   <section class="intro section-pad" id="city">
@@ -399,52 +473,70 @@ section{position:relative}
         <p class="lead reveal d1">从一杯酒、一颗荔枝，到一笼粑粑、一只麻辣鸡。点击卡片，顺着味道认识泸州。</p>
       </div>
       <div class="flavor-grid">
-        <a class="flavor-card reveal" href="#laojiao">
-          <img src="assets/laojiao.jpg" alt="泸州老窖1573国宝窖池群" loading="lazy">
+        <a class="flavor-card reveal" href="https://www.lzlj.com/" target="_blank" rel="noopener" aria-label="泸州老窖 · 打开官网（新窗口）">
+          <img data-media="assets/laojiao.jpg" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD//gAQTGF2YzYwLjMxLjEwMgD/2wBDAAgYGBwYHCEhISEhISckJygoKCcnJycoKCgrKyszMzMrKysoKCsrMDAzMzc5NzQ0MzQ5OTw8PEhIRUVUVFdnZ3z/xABsAAEBAQEAAAAAAAAAAAAAAAAFBgQHAQEBAQEAAAAAAAAAAAAAAAAEAwEFEAABAgQDBQkBAQAAAAAAAAABAAIhERIDMVFxgcFhQkHSorEEQ5HwMlMTIxEBAQEBAAAAAAAAAAAAAAAAAAERIf/AABEIABIAGAMBIgACEQADEQD/2gAMAwEAAhEDEQA/AE7T3ObULphPlEmkfMlSf0uUwuMdnAtOvFc3sX5Mxg7Ld1T7XsoLZuM+pJJGk1mo2M1545nRJlDPxkiZcStth1tzy19wDGdYhLMRx0KqKPJ/uzvdtIlFs64yD/nsVLbJoESpj09m5Ulv6BGdBvuYu0B2oqp2Z90tcxdoEKqQav/Z" alt="泸州老窖1573国宝窖池群" loading="lazy">
+          <video class="card-video" data-hover-video="assets/video/laojiao.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+          <span class="official-flag">官网<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
           <span class="flavor-num">01</span>
           <h3>泸州老窖</h3>
           <p>酒城之魂 · 浓香鼻祖</p>
           <div class="flavor-tags"><span>1573窖池</span><span>浓香</span></div>
+          <span class="flavor-live" aria-hidden="true"><i></i>动态预览</span>
           <span class="flavor-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </a>
-        <a class="flavor-card reveal d1" href="#lizhi">
-          <img src="assets/lizhi.jpg" alt="合江荔枝" loading="lazy">
+        <a class="flavor-card reveal d1" href="https://www.hejiang.gov.cn/" target="_blank" rel="noopener" aria-label="合江荔枝 · 打开原产地（新窗口）">
+          <img data-media="assets/lizhi.jpg" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD//gAQTGF2YzYwLjMxLjEwMgD/2wBDAAgYGBwYHCEhISEhISckJygoKCcnJycoKCgrKyszMzMrKysoKCsrMDAzMzc5NzQ0MzQ5OTw8PEhIRUVUVFdnZ3z/xAByAAEBAQEBAAAAAAAAAAAAAAAFBgQAAwEBAQEAAAAAAAAAAAAAAAAABAMFEAABAgMECAcBAAAAAAAAAAABAAIRAyEiMRIEFHGCE0LBoUGBkiMyU2NDUREAAgICAwEAAAAAAAAAAAAAAAECMUESEZFx8P/AABEIABIAGAMBIgACEQADEQD/2gAMAwEAAhEDEQA/AIvCGvDsNlxBAHCBD3EhPSJGOU4iy5xIMIOAHiL6pn0H0ILKdzQw1LTou7iLgW8Jq7WRUhSc75GaLEuyNsSzLcWRtOEICou6G5OaTK+PoF2aa7cyWgPbgBabQiR2UbgP2eYJO6AOLLJy1RJnZYGtDyWZy9/2y2o8kZ2ikqf2Ru87ZS0B/ET32ymEJm/O14f/2Q==" alt="合江荔枝" loading="lazy">
+          <video class="card-video" data-hover-video="assets/video/lizhi.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+          <span class="official-flag">原产地<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
           <span class="flavor-num">02</span>
           <h3>合江荔枝</h3>
           <p>北纬28° · 晚熟的甜</p>
           <div class="flavor-tags"><span>盛夏</span><span>晚熟</span></div>
+          <span class="flavor-live" aria-hidden="true"><i></i>动态预览</span>
           <span class="flavor-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </a>
-        <a class="flavor-card reveal d2" href="#tea">
-          <img src="assets/tea.jpg" alt="纳溪特早茶茶园开采" loading="lazy">
+        <a class="flavor-card reveal d2" href="https://www.naxi.gov.cn/" target="_blank" rel="noopener" aria-label="纳溪特早茶 · 打开原产地（新窗口）">
+          <img data-media="assets/tea.jpg" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD//gAQTGF2YzYwLjMxLjEwMgD/2wBDAAgYGBwYHCEhISEhISckJygoKCcnJycoKCgrKyszMzMrKysoKCsrMDAzMzc5NzQ0MzQ5OTw8PEhIRUVUVFdnZ3z/xABqAAADAQEBAAAAAAAAAAAAAAABBAMCBgUBAQADAQAAAAAAAAAAAAAAAAIBAAUDEAACAQMCAwkBAAAAAAAAAAAAARHRUQIhQRJxMaHBkoFh8AMy4VMRAQEBAQAAAAAAAAAAAAAAAAAREgH/wAARCAASABgDASIAAhEAAxEA/9oADAMBAAIRAxEAPwDlob6dpFxN2knrbyPR4clGUUFYWnpuqmfVpP7KcGnfF9KpmI+T+eHidRqMZmFNys8g6AJd7k23p73NfpN7cu84IWCAI+C//9k=" alt="纳溪特早茶茶园开采" loading="lazy">
+          <video class="card-video" data-hover-video="assets/video/tea.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+          <span class="official-flag">原产地<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
           <span class="flavor-num">03</span>
           <h3>纳溪特早茶</h3>
           <p>早春第一口鲜</p>
           <div class="flavor-tags"><span>早采</span><span>清香</span></div>
+          <span class="flavor-live" aria-hidden="true"><i></i>动态预览</span>
           <span class="flavor-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </a>
-        <a class="flavor-card reveal" href="#huangba">
-          <img src="assets/huangba.jpg" alt="用良姜叶包裹的泸州黄粑" loading="lazy">
+        <a class="flavor-card reveal" href="https://www.luzhou.gov.cn/" target="_blank" rel="noopener" aria-label="泸州黄粑 · 打开官方资料（新窗口）">
+          <img data-media="assets/huangba.jpg" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD//gAQTGF2YzYwLjMxLjEwMgD/2wBDAAgYGBwYHCEhISEhISckJygoKCcnJycoKCgrKyszMzMrKysoKCsrMDAzMzc5NzQ0MzQ5OTw8PEhIRUVUVFdnZ3z/xAB3AAADAQEBAAAAAAAAAAAAAAAHBgMFAgQBAQEBAQAAAAAAAAAAAAAAAAMCBAUQAAIBAgMGAgsBAAAAAAAAAAIBAxEAQTEhcRMEgWFRkRKCcqGyM0IUYiLB0TIRAAICAQUBAAAAAAAAAAAAAAABAjERgSHBsQMy/8AAEQgAEgAYAwEiAAIRAAMRAP/aAAwDAQACEQMRAD8Aw5ePkBjVpejoqvPvyvicCnSYTkXRv8X4ZbLxuO4chkCmsZMRR5peWgtN5aZ3aSMBNsZhWzHleXfFiTlhrHRlszh0betapuvT94XDfLt7Xdz4Y5WnVsV83fZ/cr8/0g/d4jdqIqm2q4CiGu/F5UJ0wr5nrTvY2xdkqP8A1P6pe87G2Lu1SDlY5St7kOufW1u2KX4IWvXmnZ1fP51P/9k=" alt="用良姜叶包裹的泸州黄粑" loading="lazy">
+          <video class="card-video" data-hover-video="assets/video/huangba.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+          <span class="official-flag">非遗<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
           <span class="flavor-num">04</span>
           <h3>泸州黄粑</h3>
           <p>良姜叶裹住的甜香</p>
           <div class="flavor-tags"><span>糯米</span><span>红糖</span></div>
+          <span class="flavor-live" aria-hidden="true"><i></i>动态预览</span>
           <span class="flavor-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </a>
-        <a class="flavor-card reveal d1" href="#zhuerba">
-          <img src="assets/zhuerba.jpg" alt="洁白软糯的泸州猪儿粑" loading="lazy">
+        <a class="flavor-card reveal d1" href="https://www.luzhou.gov.cn/" target="_blank" rel="noopener" aria-label="猪儿粑 · 打开官方资料（新窗口）">
+          <img data-media="assets/zhuerba.jpg" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD//gAQTGF2YzYwLjMxLjEwMgD/2wBDAAgYGBwYHCEhISEhISckJygoKCcnJycoKCgrKyszMzMrKysoKCsrMDAzMzc5NzQ0MzQ5OTw8PEhIRUVUVFdnZ3z/xAB1AAEBAAIDAQAAAAAAAAAAAAAFBAIBAAMHBgEBAQEBAAAAAAAAAAAAAAAAAwIBBBAAAgECAwUHBQEBAAAAAAAAAgEDABESITFhsUEyBHFyUlEUMxNTkpGB4SIFEQACAwEBAQAAAAAAAAAAAAAAATIhAnFRQf/AABEIABIAGAMBIgACEQADEQD/2gAMAwEAAhEDEQA/AE4S9czSbEBs0rtYlttnn5cK6jTifxRIVJIS1thAbc1u1cag/wCUOOUs2LENL68Gv1SfUxgBgbu7Grq/NQOiznUMozuiQ2Ff6Q2RPji4OhvU9R9WP7P7X23VTxOJsWndWs9uyvNcQ+AKRX4zLX0mkbCWJi2LwDmsn5arZSZEykd23ktXeiZvch7g76SfuF2KufcRtSfSSflDaS3qsfjDwj+FW59I+8t6qikxEFn/2Q==" alt="洁白软糯的泸州猪儿粑" loading="lazy">
+          <video class="card-video" data-hover-video="assets/video/zhuerba.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+          <span class="official-flag">非遗<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
           <span class="flavor-num">05</span>
           <h3>猪儿粑</h3>
           <p>小猪模样的软糯</p>
           <div class="flavor-tags"><span>咸甜双馅</span><span>早餐</span></div>
+          <span class="flavor-live" aria-hidden="true"><i></i>动态预览</span>
           <span class="flavor-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </a>
-        <a class="flavor-card reveal d2" href="#malaji">
-          <img src="assets/malaji.jpg" alt="红油拌制的古蔺麻辣鸡" loading="lazy">
+        <a class="flavor-card reveal d2" href="https://www.gulin.gov.cn/" target="_blank" rel="noopener" aria-label="古蔺麻辣鸡 · 打开原产地（新窗口）">
+          <img data-media="assets/malaji.jpg" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD//gAQTGF2YzYwLjMxLjEwMgD/2wBDAAgYGBwYHCEhISEhISckJygoKCcnJycoKCgrKyszMzMrKysoKCsrMDAzMzc5NzQ0MzQ5OTw8PEhIRUVUVFdnZ3z/xABuAAEBAQEBAAAAAAAAAAAAAAAGBQQDBwEBAQEBAAAAAAAAAAAAAAAABAEDAhAAAgEDBAMAAwEAAAAAAAAAAQIAESEDcUExElEyBCITkbERAQABAwMFAQAAAAAAAAAAAAEAAwIRUQQxQkESIYEy/8AAEQgAEgAYAwEiAAIRAAMRAP/aAAwDAQACEQMRAD8A1Aoefx1mlHWqhWqW4G84fVhJUYsKl8gu9xdSOL8U0vC4w5MaozMnz9WPUZOwr1G1FNr3iam4egyJywtPbj+3DoaT2bFW1ZXvD3zHCOq/tGTKRU8+K0Wu3+xRSUv8vcxaba4kIKFZiAATyQKE6mQ89yK31iDcw9m5Eh2j7ufkkL7A71EQ9m8n+w+PYay3OpjP/9k=" alt="红油拌制的古蔺麻辣鸡" loading="lazy">
+          <video class="card-video" data-hover-video="assets/video/malaji.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+          <span class="official-flag">原产地<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
           <span class="flavor-num">06</span>
           <h3>古蔺麻辣鸡</h3>
           <p>老卤与红油的相逢</p>
           <div class="flavor-tags"><span>麻辣</span><span>老卤</span></div>
+          <span class="flavor-live" aria-hidden="true"><i></i>动态预览</span>
           <span class="flavor-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </a>
       </div>
@@ -455,7 +547,7 @@ section{position:relative}
     <div class="wrap feature-grid">
       <div class="feature-media reveal">
         <span class="feature-index" aria-hidden="true">01</span>
-        <figure class="feature-img"><img src="assets/laojiao.jpg" alt="泸州老窖1573国宝窖池群内的窖池" loading="lazy"></figure>
+        <figure class="feature-img"><img data-media="assets/laojiao.jpg" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD//gAQTGF2YzYwLjMxLjEwMgD/2wBDAAgYGBwYHCEhISEhISckJygoKCcnJycoKCgrKyszMzMrKysoKCsrMDAzMzc5NzQ0MzQ5OTw8PEhIRUVUVFdnZ3z/xABsAAEBAQEAAAAAAAAAAAAAAAAFBgQHAQEBAQEAAAAAAAAAAAAAAAAEAwEFEAABAgQDBQkBAQAAAAAAAAABAAIhERIDMVFxgcFhQkHSorEEQ5HwMlMTIxEBAQEBAAAAAAAAAAAAAAAAAAERIf/AABEIABIAGAMBIgACEQADEQD/2gAMAwEAAhEDEQA/AE7T3ObULphPlEmkfMlSf0uUwuMdnAtOvFc3sX5Mxg7Ld1T7XsoLZuM+pJJGk1mo2M1545nRJlDPxkiZcStth1tzy19wDGdYhLMRx0KqKPJ/uzvdtIlFs64yD/nsVLbJoESpj09m5Ulv6BGdBvuYu0B2oqp2Z90tcxdoEKqQav/Z" alt="泸州老窖1573国宝窖池群内的窖池" loading="lazy"><video class="feature-video" data-hover-video="assets/video/laojiao.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video></figure>
         <div class="feature-caption"><span>1573国宝窖池群 · 泸州老窖</span><a href="https://www.lzlj.com/culture/material/" target="_blank" rel="noopener">泸州老窖官网</a></div>
       </div>
       <div class="feature-copy reveal d1">
@@ -470,6 +562,10 @@ section{position:relative}
           <div class="flavor-note"><small>时间坐标</small><b>1573年</b></div>
           <div class="flavor-note"><small>城市名片</small><b>中国酒城</b></div>
         </div>
+        <div class="official-row">
+          <a class="official-btn" href="https://www.lzlj.com/" target="_blank" rel="noopener">进入泸州老窖官网 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <span class="official-note">品牌官方网站 · 浓香鼻祖 · 新窗口打开</span>
+        </div>
         <a class="source-line" href="https://www.lzlj.com/culture/material/" target="_blank" rel="noopener">资料来源：泸州老窖官网 · 文化典藏
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
         </a>
@@ -482,7 +578,7 @@ section{position:relative}
     <div class="wrap feature-grid">
       <div class="feature-media reveal">
         <span class="feature-index" aria-hidden="true">02</span>
-        <figure class="feature-img"><img src="assets/lizhi.jpg" alt="合江荔枝果实" loading="lazy"></figure>
+        <figure class="feature-img"><img data-media="assets/lizhi.jpg" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD//gAQTGF2YzYwLjMxLjEwMgD/2wBDAAgYGBwYHCEhISEhISckJygoKCcnJycoKCgrKyszMzMrKysoKCsrMDAzMzc5NzQ0MzQ5OTw8PEhIRUVUVFdnZ3z/xAByAAEBAQEBAAAAAAAAAAAAAAAFBgQAAwEBAQEAAAAAAAAAAAAAAAAABAMFEAABAgMECAcBAAAAAAAAAAABAAIRAyEiMRIEFHGCE0LBoUGBkiMyU2NDUREAAgICAwEAAAAAAAAAAAAAAAECMUESEZFx8P/AABEIABIAGAMBIgACEQADEQD/2gAMAwEAAhEDEQA/AIvCGvDsNlxBAHCBD3EhPSJGOU4iy5xIMIOAHiL6pn0H0ILKdzQw1LTou7iLgW8Jq7WRUhSc75GaLEuyNsSzLcWRtOEICou6G5OaTK+PoF2aa7cyWgPbgBabQiR2UbgP2eYJO6AOLLJy1RJnZYGtDyWZy9/2y2o8kZ2ikqf2Ru87ZS0B/ET32ymEJm/O14f/2Q==" alt="合江荔枝果实" loading="lazy"><video class="feature-video" data-hover-video="assets/video/lizhi.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video></figure>
         <div class="feature-caption"><span>合江荔枝 · 盛夏风物</span><a href="https://luzhou.scol.com.cn/jd/202507/83086103.html" target="_blank" rel="noopener">四川在线</a></div>
       </div>
       <div class="feature-copy reveal d1">
@@ -497,6 +593,10 @@ section{position:relative}
           <div class="flavor-note"><small>风土</small><b>长江赤水河谷</b></div>
           <div class="flavor-note"><small>风味</small><b>清甜多汁</b></div>
         </div>
+        <div class="official-row">
+          <a class="official-btn" href="https://www.hejiang.gov.cn/" target="_blank" rel="noopener">进入合江县人民政府 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <span class="official-note">中国荔枝晚熟之乡 · 官方门户 · 新窗口打开 · <a href="https://baike.baidu.com/item/%E5%90%88%E6%B1%9F%E8%8D%94%E6%9E%9D" target="_blank" rel="noopener">合江荔枝百科</a></span>
+        </div>
         <a class="source-line" href="https://luzhou.scol.com.cn/jd/202507/83086103.html" target="_blank" rel="noopener">资料来源：四川在线《合江荔枝文化旅游季开幕》
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
         </a>
@@ -508,7 +608,7 @@ section{position:relative}
     <div class="wrap feature-grid">
       <div class="feature-media reveal">
         <span class="feature-index" aria-hidden="true">03</span>
-        <figure class="feature-img"><img src="assets/tea.jpg" alt="纳溪特早茶茶园中采茶" loading="lazy"></figure>
+        <figure class="feature-img"><img data-media="assets/tea.jpg" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD//gAQTGF2YzYwLjMxLjEwMgD/2wBDAAgYGBwYHCEhISEhISckJygoKCcnJycoKCgrKyszMzMrKysoKCsrMDAzMzc5NzQ0MzQ5OTw8PEhIRUVUVFdnZ3z/xABqAAADAQEBAAAAAAAAAAAAAAABBAMCBgUBAQADAQAAAAAAAAAAAAAAAAIBAAUDEAACAQMCAwkBAAAAAAAAAAAAARHRUQIhQRJxMaHBkoFh8AMy4VMRAQEBAQAAAAAAAAAAAAAAAAAREgH/wAARCAASABgDASIAAhEAAxEA/9oADAMBAAIRAxEAPwDlob6dpFxN2knrbyPR4clGUUFYWnpuqmfVpP7KcGnfF9KpmI+T+eHidRqMZmFNys8g6AJd7k23p73NfpN7cu84IWCAI+C//9k=" alt="纳溪特早茶茶园中采茶" loading="lazy"><video class="feature-video" data-hover-video="assets/video/tea.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video></figure>
         <div class="feature-caption"><span>纳溪特早茶 · 早春开采</span><a href="https://k.sina.com.cn/article_6824573189_196c6b90502001kan3.html" target="_blank" rel="noopener">新浪新闻</a></div>
       </div>
       <div class="feature-copy reveal d1">
@@ -523,6 +623,10 @@ section{position:relative}
           <div class="flavor-note"><small>采摘</small><b>寒冬至早春</b></div>
           <div class="flavor-note"><small>风味</small><b>清香鲜爽</b></div>
         </div>
+        <div class="official-row">
+          <a class="official-btn" href="https://www.naxi.gov.cn/" target="_blank" rel="noopener">进入纳溪区人民政府 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <span class="official-note">特早茶原产地 · 官方门户 · 新窗口打开 · <a href="https://baike.baidu.com/item/%E7%BA%B3%E6%BA%AA%E7%89%B9%E6%97%A9%E8%8C%B6" target="_blank" rel="noopener">纳溪特早茶百科</a></span>
+        </div>
         <a class="source-line" href="https://k.sina.com.cn/article_6824573189_196c6b90502001kan3.html" target="_blank" rel="noopener">资料来源：新浪新闻《四川纳溪：特早茶开采》
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
         </a>
@@ -534,7 +638,7 @@ section{position:relative}
     <div class="wrap feature-grid">
       <div class="feature-media reveal">
         <span class="feature-index" aria-hidden="true">04</span>
-        <figure class="feature-img"><img src="assets/huangba.jpg" alt="色泽金黄的泸州黄粑" loading="lazy"></figure>
+        <figure class="feature-img"><img data-media="assets/huangba.jpg" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD//gAQTGF2YzYwLjMxLjEwMgD/2wBDAAgYGBwYHCEhISEhISckJygoKCcnJycoKCgrKyszMzMrKysoKCsrMDAzMzc5NzQ0MzQ5OTw8PEhIRUVUVFdnZ3z/xAB3AAADAQEBAAAAAAAAAAAAAAAHBgMFAgQBAQEBAQAAAAAAAAAAAAAAAAMCBAUQAAIBAgMGAgsBAAAAAAAAAAIBAxEAQTEhcRMEgWFRkRKCcqGyM0IUYiLB0TIRAAICAQUBAAAAAAAAAAAAAAABAjERgSHBsQMy/8AAEQgAEgAYAwEiAAIRAAMRAP/aAAwDAQACEQMRAD8Aw5ePkBjVpejoqvPvyvicCnSYTkXRv8X4ZbLxuO4chkCmsZMRR5peWgtN5aZ3aSMBNsZhWzHleXfFiTlhrHRlszh0betapuvT94XDfLt7Xdz4Y5WnVsV83fZ/cr8/0g/d4jdqIqm2q4CiGu/F5UJ0wr5nrTvY2xdkqP8A1P6pe87G2Lu1SDlY5St7kOufW1u2KX4IWvXmnZ1fP51P/9k=" alt="色泽金黄的泸州黄粑" loading="lazy"><video class="feature-video" data-hover-video="assets/video/huangba.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video></figure>
         <div class="feature-caption"><span>泸州黄粑 · 良姜叶包裹</span><a href="https://www.scpublic.cn/news/getNewsDatail?id=869181" target="_blank" rel="noopener">四川省政府新闻办</a></div>
       </div>
       <div class="feature-copy reveal d1">
@@ -549,6 +653,10 @@ section{position:relative}
           <div class="flavor-note"><small>包材</small><b>良姜叶</b></div>
           <div class="flavor-note"><small>吃法</small><b>蒸食 / 油煎</b></div>
         </div>
+        <div class="official-row">
+          <a class="official-btn" href="https://www.luzhou.gov.cn/" target="_blank" rel="noopener">进入泸州市人民政府 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <span class="official-note">暂无独立品牌官网 · 跳转非遗美食官方资料 · <a href="https://baike.baidu.com/item/%E6%B3%B8%E5%B7%9E%E9%BB%84%E7%B2%91" target="_blank" rel="noopener">泸州黄粑百科</a></span>
+        </div>
         <a class="source-line" href="https://www.scpublic.cn/news/getNewsDatail?id=869181" target="_blank" rel="noopener">资料来源：四川省政府新闻办《白糕、黄粑、猪儿粑……》
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
         </a>
@@ -560,7 +668,7 @@ section{position:relative}
     <div class="wrap feature-grid">
       <div class="feature-media reveal">
         <span class="feature-index" aria-hidden="true">05</span>
-        <figure class="feature-img"><img src="assets/zhuerba.jpg" alt="刚蒸熟的泸州猪儿粑" loading="lazy"></figure>
+        <figure class="feature-img"><img data-media="assets/zhuerba.jpg" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD//gAQTGF2YzYwLjMxLjEwMgD/2wBDAAgYGBwYHCEhISEhISckJygoKCcnJycoKCgrKyszMzMrKysoKCsrMDAzMzc5NzQ0MzQ5OTw8PEhIRUVUVFdnZ3z/xAB1AAEBAAIDAQAAAAAAAAAAAAAFBAIBAAMHBgEBAQEBAAAAAAAAAAAAAAAAAwIBBBAAAgECAwUHBQEBAAAAAAAAAgEDABESITFhsUEyBHFyUlEUMxNTkpGB4SIFEQACAwEBAQAAAAAAAAAAAAAAATIhAnFRQf/AABEIABIAGAMBIgACEQADEQD/2gAMAwEAAhEDEQA/AE4S9czSbEBs0rtYlttnn5cK6jTifxRIVJIS1thAbc1u1cag/wCUOOUs2LENL68Gv1SfUxgBgbu7Grq/NQOiznUMozuiQ2Ff6Q2RPji4OhvU9R9WP7P7X23VTxOJsWndWs9uyvNcQ+AKRX4zLX0mkbCWJi2LwDmsn5arZSZEykd23ktXeiZvch7g76SfuF2KufcRtSfSSflDaS3qsfjDwj+FW59I+8t6qikxEFn/2Q==" alt="刚蒸熟的泸州猪儿粑" loading="lazy"><video class="feature-video" data-hover-video="assets/video/zhuerba.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video></figure>
         <div class="feature-caption"><span>泸州猪儿粑 · 早餐一绝</span><a href="https://www.scpublic.cn/news/getNewsDatail?id=869181" target="_blank" rel="noopener">四川省政府新闻办</a></div>
       </div>
       <div class="feature-copy reveal d1">
@@ -575,6 +683,10 @@ section{position:relative}
           <div class="flavor-note"><small>馅心</small><b>咸 / 甜双味</b></div>
           <div class="flavor-note"><small>口感</small><b>糯软不粘牙</b></div>
         </div>
+        <div class="official-row">
+          <a class="official-btn" href="https://www.luzhou.gov.cn/" target="_blank" rel="noopener">进入泸州市人民政府 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <span class="official-note">暂无独立品牌官网 · 跳转非遗美食官方资料 · <a href="https://baike.baidu.com/item/%E7%8C%AA%E5%84%BF%E7%B2%91" target="_blank" rel="noopener">猪儿粑百科</a></span>
+        </div>
         <a class="source-line" href="https://www.scpublic.cn/news/getNewsDatail?id=869181" target="_blank" rel="noopener">资料来源：四川省政府新闻办《白糕、黄粑、猪儿粑……》
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
         </a>
@@ -586,7 +698,7 @@ section{position:relative}
     <div class="wrap feature-grid">
       <div class="feature-media reveal">
         <span class="feature-index" aria-hidden="true">06</span>
-        <figure class="feature-img"><img src="assets/malaji.jpg" alt="拌好红油辣椒的古蔺麻辣鸡" loading="lazy"></figure>
+        <figure class="feature-img"><img data-media="assets/malaji.jpg" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD//gAQTGF2YzYwLjMxLjEwMgD/2wBDAAgYGBwYHCEhISEhISckJygoKCcnJycoKCgrKyszMzMrKysoKCsrMDAzMzc5NzQ0MzQ5OTw8PEhIRUVUVFdnZ3z/xABuAAEBAQEBAAAAAAAAAAAAAAAGBQQDBwEBAQEBAAAAAAAAAAAAAAAABAEDAhAAAgEDBAMAAwEAAAAAAAAAAQIAESEDcUExElEyBCITkbERAQABAwMFAQAAAAAAAAAAAAEAAwIRUQQxQkESIYEy/8AAEQgAEgAYAwEiAAIRAAMRAP/aAAwDAQACEQMRAD8A1Aoefx1mlHWqhWqW4G84fVhJUYsKl8gu9xdSOL8U0vC4w5MaozMnz9WPUZOwr1G1FNr3iam4egyJywtPbj+3DoaT2bFW1ZXvD3zHCOq/tGTKRU8+K0Wu3+xRSUv8vcxaba4kIKFZiAATyQKE6mQ89yK31iDcw9m5Eh2j7ufkkL7A71EQ9m8n+w+PYay3OpjP/9k=" alt="拌好红油辣椒的古蔺麻辣鸡" loading="lazy"><video class="feature-video" data-hover-video="assets/video/malaji.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video></figure>
         <div class="feature-caption"><span>古蔺麻辣鸡 · 山城烈味</span><a href="https://k.sina.cn/article_2993053697_b2666001001015bss.html" target="_blank" rel="noopener">新浪新闻</a></div>
       </div>
       <div class="feature-copy reveal d1">
@@ -600,6 +712,10 @@ section{position:relative}
           <div class="flavor-note"><small>产地</small><b>古蔺县</b></div>
           <div class="flavor-note"><small>工艺</small><b>老卤 + 红油</b></div>
           <div class="flavor-note"><small>风味</small><b>麻辣鲜香</b></div>
+        </div>
+        <div class="official-row">
+          <a class="official-btn" href="https://www.gulin.gov.cn/" target="_blank" rel="noopener">进入古蔺县人民政府 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <span class="official-note">麻辣鸡原产地 · 官方门户 · 新窗口打开 · <a href="https://baike.baidu.com/item/%E5%8F%A4%E8%94%BA%E9%BA%BB%E8%BE%A3%E9%B8%A1" target="_blank" rel="noopener">古蔺麻辣鸡百科</a></span>
         </div>
         <a class="source-line" href="https://k.sina.cn/article_2993053697_b2666001001015bss.html" target="_blank" rel="noopener">资料来源：新浪新闻《舌尖上的中国》古蔺麻辣鸡报道
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
@@ -699,6 +815,11 @@ section{position:relative}
         <li class="reveal"><a href="https://baike.so.com/doc/23796235-24352390.html" target="_blank" rel="noopener">360百科 · 泸州猪儿粑</a><span>猪儿粑原料 / 形制</span></li>
       </ol>
 
+      <div class="note-card media-note reveal">
+        <b>关于影像与资源线路</b>
+        <p>首屏与产品悬停影像，由本页公开来源的泸州实景图片逐帧动态重制而成，未压缩画质；图片与视频加载时优先尝试 jsDelivr 等镜像站，首字节超过 1.6 秒或速度低于 140KB/s 会自动切换到下一条线路，全部镜像不可用时才回退 GitHub Pages 原站。可在首屏右下角随时关闭动态影像。</p>
+      </div>
+
       <details class="credit-box reveal">
         <summary>图片素材与版权说明</summary>
         <ul class="credit-list">
@@ -735,6 +856,10 @@ section{position:relative}
       <span>陈运然 · 泸州介绍手册 / 美食特色 · 2026</span>
       <span>本页为学习交流作品 · 图片版权归原作者所有</span>
     </div>
+    <div class="route-line">
+      <span id="routeStatus">资源线路：探测中…</span>
+      <span>镜像优先 · 慢速自动切换 · 原站兜底</span>
+    </div>
   </div>
 </footer>
 
@@ -742,65 +867,181 @@ section{position:relative}
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
 </button>
 
+<script src="assets/js/media.js"></script>
 <script>
 (function(){
-  const nav=document.getElementById('nav');
-  const progress=document.getElementById('progress');
-  const toTop=document.getElementById('toTop');
-  const menuBtn=document.getElementById('menuBtn');
-  const navLinks=document.getElementById('navLinks');
+  var nav=document.getElementById('nav');
+  var progress=document.getElementById('progress');
+  var toTop=document.getElementById('toTop');
+  var menuBtn=document.getElementById('menuBtn');
+  var navLinks=document.getElementById('navLinks');
+  var hero=document.querySelector('.hero');
+  var heroVideo=document.querySelector('[data-hero-video]');
+  var toggle=document.getElementById('videoToggle');
+  var toggleState=toggle?toggle.querySelector('b'):null;
 
   function onScroll(){
-    const y=window.scrollY||document.documentElement.scrollTop;
-    const h=document.documentElement.scrollHeight-window.innerHeight;
+    var y=window.scrollY||document.documentElement.scrollTop;
+    var h=document.documentElement.scrollHeight-window.innerHeight;
     nav.classList.toggle('scrolled',y>60);
     progress.style.width=(h>0?(y/h)*100:0)+'%';
     toTop.classList.toggle('show',y>700);
   }
   window.addEventListener('scroll',onScroll,{passive:true});
   onScroll();
+  toTop.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
 
-  toTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
-
-  menuBtn.addEventListener('click',()=>{
-    const open=document.body.classList.toggle('menu-open');
+  /* ---------- 菜单 ---------- */
+  function closeMenu(){
+    document.body.classList.remove('menu-open');
+    menuBtn.setAttribute('aria-expanded','false');
+    menuBtn.setAttribute('aria-label','打开菜单');
+  }
+  menuBtn.addEventListener('click',function(){
+    var open=document.body.classList.toggle('menu-open');
     menuBtn.setAttribute('aria-expanded',String(open));
     menuBtn.setAttribute('aria-label',open?'关闭菜单':'打开菜单');
   });
-  navLinks.addEventListener('click',e=>{
-    if(e.target.closest('a')){
-      document.body.classList.remove('menu-open');
-      menuBtn.setAttribute('aria-expanded','false');
-      menuBtn.setAttribute('aria-label','打开菜单');
-    }
-  });
+  navLinks.addEventListener('click',function(e){ if(e.target.closest('a')) closeMenu(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeMenu(); });
 
-  const reveals=document.querySelectorAll('.reveal');
+  /* ---------- 入场 ---------- */
+  var reveals=document.querySelectorAll('.reveal');
   if('IntersectionObserver' in window){
-    const io=new IntersectionObserver((entries)=>{
-      entries.forEach(en=>{
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
         if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}
       });
     },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
-    reveals.forEach(el=>io.observe(el));
+    reveals.forEach(function(el){io.observe(el);});
   }else{
-    reveals.forEach(el=>el.classList.add('in'));
+    reveals.forEach(function(el){el.classList.add('in');});
   }
 
-  const sections=[...document.querySelectorAll('section[id]')];
-  const links=[...navLinks.querySelectorAll('a[href^="#"]')];
+  var sections=[].slice.call(document.querySelectorAll('section[id]'));
+  var links=[].slice.call(navLinks.querySelectorAll('a[href^="#"]'));
   if('IntersectionObserver' in window){
-    const spy=new IntersectionObserver((entries)=>{
-      entries.forEach(en=>{
+    var spy=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
         if(en.isIntersecting){
-          const id='#'+en.target.id;
-          links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')===id));
+          var id='#'+en.target.id;
+          links.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')===id);});
         }
       });
     },{rootMargin:'-42% 0px -50% 0px',threshold:0});
-    sections.forEach(s=>spy.observe(s));
+    sections.forEach(function(s){spy.observe(s);});
   }
+
+  /* ---------- 媒体线路状态 ---------- */
+  var routeEls=[].slice.call(document.querySelectorAll('.media-route'));
+  var footRoute=document.getElementById('routeStatus');
+  if(window.LZMedia){
+    window.LZMedia.subscribe(function(info){
+      var label='资源线路：'+info.label;
+      routeEls.forEach(function(el){ el.textContent=info.ttfb?label+' · '+info.ttfb+'ms':label; });
+      if(footRoute){
+        footRoute.innerHTML='<b>'+label+'</b>'+(info.speed?' · '+Math.round(info.speed/1024)+' KB/s':'')+(info.fallback?' · 原站兜底':'');
+      }
+    });
+  }
+
+  /* ---------- 图片：镜像优先 ---------- */
+  if(window.LZMedia){
+    document.querySelectorAll('img[data-media]').forEach(function(img){ window.LZMedia.loadImage(img); });
+  }
+
+  /* ---------- 动态影像开关 ---------- */
+  var reduce=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var saveData=!!(navigator.connection && navigator.connection.saveData);
+  var stored=null;
+  try{ stored=localStorage.getItem('lz-video'); }catch(e){}
+  var videoOn = stored ? stored==='on' : (!reduce && !saveData);
+  var heroStarted=false;
+
+  function setVideo(on,persist){
+    videoOn=on;
+    document.documentElement.classList.toggle('video-off',!on);
+    if(toggle){
+      toggle.setAttribute('aria-pressed',String(on));
+      if(toggleState) toggleState.textContent=on?'开':'关';
+      toggle.setAttribute('aria-label',on?'关闭背景动态影像':'开启背景动态影像');
+    }
+    if(persist){ try{localStorage.setItem('lz-video',on?'on':'off');}catch(e){} }
+    if(!on){
+      document.querySelectorAll('video').forEach(function(v){
+        try{v.pause();}catch(e){}
+      });
+      document.querySelectorAll('.playing').forEach(function(el){el.classList.remove('playing');});
+      return;
+    }
+    if(!heroStarted) startHero();
+    else if(heroVideo && heroVideo.classList.contains('is-live')){ heroVideo.play().catch(function(){}); }
+  }
+
+  function startHero(){
+    if(!heroVideo || !videoOn || heroStarted || !window.LZMedia) return;
+    heroStarted=true;
+    window.LZMedia.attachVideo(heroVideo, heroVideo.getAttribute('data-hero-video'), true);
+  }
+
+  if(toggle) toggle.addEventListener('click',function(){ setVideo(!videoOn,true); });
+  setVideo(videoOn,false);
+  startHero();
+
+  /* 首屏离开视口时暂停，省流量也省电 */
+  if(heroVideo && 'IntersectionObserver' in window){
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(!heroVideo.classList.contains('is-live')) return;
+        if(en.isIntersecting){ if(videoOn) heroVideo.play().catch(function(){}); }
+        else heroVideo.pause();
+      });
+    },{threshold:.02}).observe(hero);
+  }
+
+  /* ---------- 悬停播放产品动态影像 ---------- */
+  var hoverVideos=[].slice.call(document.querySelectorAll('video[data-hover-video]'));
+
+  function hostOf(video){
+    return video.closest('.flavor-card') || video.closest('.feature-media') || video.parentElement;
+  }
+
+  hoverVideos.forEach(function(video){
+    var host=hostOf(video);
+    function play(){
+      if(!videoOn || !window.LZMedia) return;
+      window.LZMedia.attachVideo(video, video.getAttribute('data-hover-video'), true);
+      host.classList.add('playing');
+    }
+    function stop(){
+      if(window.LZMedia) window.LZMedia.stop(video);
+      host.classList.remove('playing');
+    }
+    host.addEventListener('mouseenter',play);
+    host.addEventListener('mouseleave',stop);
+    host.addEventListener('focusin',play);
+    host.addEventListener('focusout',stop);
+    video.addEventListener('canplay',function(){ video.classList.add('is-live'); });
+  });
+
+  /* 空闲时预取前两张，悬停即可播 */
+  function warmup(){
+    if(!videoOn || !window.LZMedia) return;
+    hoverVideos.slice(0,2).forEach(function(v){
+      if(!v.getAttribute('src')) window.LZMedia.attachVideo(v, v.getAttribute('data-hover-video'), false);
+    });
+  }
+  if('requestIdleCallback' in window) requestIdleCallback(warmup,{timeout:5000});
+  else setTimeout(warmup,2500);
+
+  /* ---------- 点击卡片：外链新窗口，键盘可达 ---------- */
+  document.querySelectorAll('a.flavor-card').forEach(function(card){
+    card.addEventListener('keydown',function(e){
+      if(e.key===' '){ e.preventDefault(); card.click(); }
+    });
+  });
 })();
+
 </script>
 </body>
 </html>
